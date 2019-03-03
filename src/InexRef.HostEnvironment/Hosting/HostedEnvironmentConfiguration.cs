@@ -30,9 +30,9 @@ namespace InexRef.HostEnvironment.Hosting
         {
             ConfigurationRoot = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile(new DirectoryInfo(@"..\..\..\..\InexRef.EventSourcing.config.json").FullName, optional: false, reloadOnChange: false)
-                .AddJsonFile(new DirectoryInfo(@"..\..\..\..\InexRef.EventSourcing.local.config.json").FullName, optional: true, reloadOnChange: false)
-                .AddEnvironmentVariables("INEXREFEVTSRC_")
+                .AddJsonFile(new DirectoryInfo(@"..\..\..\..\InexRef.Hosting.config.json").FullName, optional: false, reloadOnChange: false)
+                .AddJsonFile(new DirectoryInfo(@"..\..\..\..\InexRef.Hosting.local.config.json").FullName, optional: true, reloadOnChange: false)
+                .AddEnvironmentVariables("INEXREFHOSTING_")
                 .Build();
         }
 
