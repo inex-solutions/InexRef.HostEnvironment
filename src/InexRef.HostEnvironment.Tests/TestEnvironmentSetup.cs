@@ -19,23 +19,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.IO;
-using Microsoft.Extensions.Configuration;
+using InexRef.HostEnvironment.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace InexRef.HostEnvironment.Hosting
+namespace InexRef.HostEnvironment.Tests
 {
-    public static class HostedEnvironmentConfiguration
+    public static class TestEnvironmentSetup
     {
-        static HostedEnvironmentConfiguration()
+        public static void ConfigureContainerForHostEnvironmentFlavour(ServiceCollection containerBuilder, string flavour)
         {
-            ConfigurationRoot = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile(new DirectoryInfo(@"..\..\..\InexRef.Hosting.config.json").FullName, optional: false, reloadOnChange: false)
-                .AddJsonFile(new DirectoryInfo(@"..\..\..\InexRef.Hosting.local.config.json").FullName, optional: true, reloadOnChange: false)
-                .AddEnvironmentVariables("INEXREFHOSTING_")
-                .Build();
+            HostedEnvironmentFlavour.ConfigureContainerForHostEnvironmentFlavour(containerBuilder, flavour);
         }
 
-        public static IConfigurationRoot ConfigurationRoot { get; }
+        private static void ImportAssemblyContaining<T>()
+        {
+            // workaround - does nothing, but the explicit reference to type T ensures the assembly is imported. The 
+            // alternative is to dynamically load the assembly from, or copy it into the current directory. 
+        }
     }
 }

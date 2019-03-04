@@ -1,0 +1,19 @@
+﻿{
+  "HostingFlavours": {
+    "AvailableFlavours": "Hello,Wotcha",
+    "HostingFlavour": [
+      {
+        "Name": "Hello",
+        "ContainerBuilders": [
+          { "Type": "InexRef.HostEnvironment.Tests.Greeting.HelloGreetingContainerConfigurationModule, InexRef.HostEnvironment.Tests" }
+        ]
+      },
+      {
+        "Name": "Wotcha",
+        "ContainerBuilders": [
+          { "Type": "InexRef.HostEnvironment.Tests.Greeting.WotchaGreetingContainerConfigurationModule, InexRef.HostEnvironment.Tests" }
+        ]
+      }
+    ]
+  }
+}

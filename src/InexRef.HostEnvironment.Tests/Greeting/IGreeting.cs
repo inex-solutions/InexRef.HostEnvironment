@@ -19,23 +19,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.IO;
-using Microsoft.Extensions.Configuration;
-
-namespace InexRef.HostEnvironment.Hosting
+namespace InexRef.HostEnvironment.Tests.Greeting
 {
-    public static class HostedEnvironmentConfiguration
+    public interface IGreeting
     {
-        static HostedEnvironmentConfiguration()
-        {
-            ConfigurationRoot = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile(new DirectoryInfo(@"..\..\..\InexRef.Hosting.config.json").FullName, optional: false, reloadOnChange: false)
-                .AddJsonFile(new DirectoryInfo(@"..\..\..\InexRef.Hosting.local.config.json").FullName, optional: true, reloadOnChange: false)
-                .AddEnvironmentVariables("INEXREFHOSTING_")
-                .Build();
-        }
-
-        public static IConfigurationRoot ConfigurationRoot { get; }
+        string Greet();
     }
 }

@@ -19,23 +19,42 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.IO;
-using Microsoft.Extensions.Configuration;
+using System;
+using Xunit.Extensions;
 
-namespace InexRef.HostEnvironment.Hosting
+namespace InexRef.HostEnvironment.Tests.CalculatorTests
 {
-    public static class HostedEnvironmentConfiguration
+    public class when_adding_two_numbers : Specification
     {
-        static HostedEnvironmentConfiguration()
+        readonly Calculator calc;
+        int result;
+        private int count;
+        public when_adding_two_numbers()
         {
-            ConfigurationRoot = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile(new DirectoryInfo(@"..\..\..\InexRef.Hosting.config.json").FullName, optional: false, reloadOnChange: false)
-                .AddJsonFile(new DirectoryInfo(@"..\..\..\InexRef.Hosting.local.config.json").FullName, optional: true, reloadOnChange: false)
-                .AddEnvironmentVariables("INEXREFHOSTING_")
-                .Build();
+            calc = new Calculator();
         }
 
-        public static IConfigurationRoot ConfigurationRoot { get; }
+        private int Increment()
+        {
+            return ++count;
+        }
+
+        protected override void Observe()
+        {
+            result = calc.Add(1, 2);
+            Console.WriteLine("I ran: " + Increment());
+        }
+
+        [Observation]
+        public void should_return_correct_result()
+        {
+            result.ShouldEqual(3);
+        }
+
+        [Observation]
+        public void and_something_else()
+        {
+            result.ShouldEqual(3);
+        }
     }
 }

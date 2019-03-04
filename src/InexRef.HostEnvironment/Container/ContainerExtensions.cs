@@ -19,6 +19,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
+using InexRef.HostEnvironment.Hosting.ConfigurationElements;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace InexRef.HostEnvironment.Container

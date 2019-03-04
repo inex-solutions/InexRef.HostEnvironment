@@ -63,8 +63,15 @@ namespace InexRef.HostEnvironment.Hosting
 
         public static void ConfigureContainerForHostEnvironmentFlavour(ServiceCollection builder, string flavour)
         {
-            foreach (var item in HostingFlavoursConfiguration.HostingFlavour.First(f => f.Name == flavour)
-                .ContainerBuilders)
+            var hostingFlavourConfiguration = HostingFlavoursConfiguration.HostingFlavour.FirstOrDefault(f => f.Name == flavour);
+
+            if (hostingFlavourConfiguration == null)
+            {
+                throw new HostedEnvironmentConfigurationException(
+                    $"Requested hosted environment flavour '{flavour}' not found. Available flavours are {string.Join(",", HostingFlavoursConfiguration.AvailableFlavours)}");
+            }
+
+            foreach (var item in hostingFlavourConfiguration.ContainerBuilders)
             {
                 var type = Type.GetType(item.Type);
                 var module = (ContainerConfigurationModule) Activator.CreateInstance(type);
