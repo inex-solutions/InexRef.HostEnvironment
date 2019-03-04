@@ -19,17 +19,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Microsoft.Extensions.DependencyInjection;
+using NUnit.Framework;
 
-namespace InexRef.HostEnvironment.Container
+namespace InexRef.HostEnvironment.Tests.SpecificationFramework
 {
-    public static class ContainerExtensions
+    public class ThenAttribute : TestAttribute
     {
-        public static void ConfigureFrom<TModule>(this IServiceCollection serviceCollection)
-            where TModule : ContainerConfigurationModule, new()
-        {
-            var module = new TModule();
-            module.ConfigureContainer(serviceCollection);
-        }
+        
     }
 }

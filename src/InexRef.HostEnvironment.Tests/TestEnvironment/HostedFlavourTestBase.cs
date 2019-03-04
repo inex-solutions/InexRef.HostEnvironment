@@ -19,43 +19,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 using InexRef.HostEnvironment.Hosting;
-using InexRef.HostEnvironment.Tests.Greeting;
+using InexRef.HostEnvironment.Tests.SpecificationFramework;
 using InexRef.HostEnvironment.Tests.TestEnvironment;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
-using Shouldly;
 
 namespace InexRef.HostEnvironment.Tests
 {
     [TestFixtureSource(typeof(NUnitTestFixtureSource), "HostingFlavours")]
-    public class SimpleTests
+    public abstract class HostedFlavourTestBase : SpecificationBase
     {
-        private ServiceProvider Container { get; }
+        protected string HostingFlavour { get; }
 
-        private string HostingFlavour { get; }
+        protected ServiceProvider Container { get; private set; }
 
-        public SimpleTests(string hostingFlavour)
+        protected HostedFlavourTestBase(string hostingFlavour)
         {
             HostingFlavour = hostingFlavour;
-            var serviceCollection = new ServiceCollection();
-            HostedEnvironmentFlavour.ConfigureContainerForHostEnvironmentFlavour(serviceCollection, hostingFlavour);
-            Container = serviceCollection.BuildServiceProvider();
+
         }
 
-        [Test]
-        public void WriteGreeting()
+        protected override void SetUp()
         {
-            foreach (var flavour in HostedEnvironmentFlavour.AvailableFlavours)
-            {
-                Console.WriteLine($"Flavour: {flavour}");
-            }
-
-            var greetingService = Container.GetService<IGreeting>();
-            var greeting = greetingService.Greet();
-            Console.WriteLine($"Greeting: {greeting}");
-            greeting.ShouldBe(HostingFlavour);
+            var serviceCollection = new ServiceCollection();
+            HostedEnvironmentFlavour.ConfigureContainerForHostEnvironmentFlavour(serviceCollection, HostingFlavour);
+            Container = serviceCollection.BuildServiceProvider();
         }
     }
 }

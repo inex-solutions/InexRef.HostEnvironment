@@ -19,42 +19,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using Xunit.Extensions;
+using InexRef.HostEnvironment.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace InexRef.HostEnvironment.Tests.CalculatorTests
+namespace InexRef.HostEnvironment.Tests.TestEnvironment
 {
-    public class when_adding_two_numbers : Specification
+    public static class TestEnvironmentSetup
     {
-        readonly Calculator calc;
-        int result;
-        private int count;
-        public when_adding_two_numbers()
+        public static void ConfigureContainerForHostEnvironmentFlavour(ServiceCollection containerBuilder, string flavour)
         {
-            calc = new Calculator();
+            HostedEnvironmentFlavour.ConfigureContainerForHostEnvironmentFlavour(containerBuilder, flavour);
         }
 
-        private int Increment()
+        private static void ImportAssemblyContaining<T>()
         {
-            return ++count;
-        }
-
-        protected override void Observe()
-        {
-            result = calc.Add(1, 2);
-            Console.WriteLine("I ran: " + Increment());
-        }
-
-        [Observation]
-        public void should_return_correct_result()
-        {
-            result.ShouldEqual(3);
-        }
-
-        [Observation]
-        public void and_something_else()
-        {
-            result.ShouldEqual(3);
+            // workaround - does nothing, but the explicit reference to type T ensures the assembly is imported. The 
+            // alternative is to dynamically load the assembly from, or copy it into the current directory. 
         }
     }
 }

@@ -19,9 +19,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using InexRef.HostEnvironment.Hosting;
 using InexRef.HostEnvironment.Tests.Greeting;
+using InexRef.HostEnvironment.Tests.SpecificationFramework;
 using InexRef.HostEnvironment.Tests.TestEnvironment;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
@@ -30,32 +29,20 @@ using Shouldly;
 namespace InexRef.HostEnvironment.Tests
 {
     [TestFixtureSource(typeof(NUnitTestFixtureSource), "HostingFlavours")]
-    public class SimpleTests
+    public class when_requesting_a_greeeting : HostedFlavourTestBase
     {
-        private ServiceProvider Container { get; }
+        private IGreeting _greetingService;
+        private string _greeting;
 
-        private string HostingFlavour { get; }
-
-        public SimpleTests(string hostingFlavour)
+        public when_requesting_a_greeeting(string hostingFlavour) : base(hostingFlavour)
         {
-            HostingFlavour = hostingFlavour;
-            var serviceCollection = new ServiceCollection();
-            HostedEnvironmentFlavour.ConfigureContainerForHostEnvironmentFlavour(serviceCollection, hostingFlavour);
-            Container = serviceCollection.BuildServiceProvider();
         }
 
-        [Test]
-        public void WriteGreeting()
-        {
-            foreach (var flavour in HostedEnvironmentFlavour.AvailableFlavours)
-            {
-                Console.WriteLine($"Flavour: {flavour}");
-            }
+        protected override void Given() => _greetingService = Container.GetRequiredService<IGreeting>();
 
-            var greetingService = Container.GetService<IGreeting>();
-            var greeting = greetingService.Greet();
-            Console.WriteLine($"Greeting: {greeting}");
-            greeting.ShouldBe(HostingFlavour);
-        }
+        protected override void When() => _greeting = _greetingService.Greet();
+
+        [Then]
+        public void the_greeting_should_match_the_host_flavour() => _greeting.ShouldBe(HostingFlavour);
     }
 }
