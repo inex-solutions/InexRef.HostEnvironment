@@ -19,17 +19,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
+using System.Linq;
+using InexRef.HostEnvironment.Hosting;
 
-namespace InexRef.HostEnvironment.Container
+namespace InexRef.HostEnvironment.TestEnvironment.NUnit
 {
-    public static class ContainerExtensions
+    public static class NUnitTestFixtureSource
     {
-        public static void ConfigureFrom<TModule>(this IServiceCollection serviceCollection)
-            where TModule : ContainerConfigurationModule, new()
-        {
-            var module = new TModule();
-            module.ConfigureContainer(serviceCollection);
-        }
+        public static IEnumerable<object[]> HostingFlavours =>
+            HostedEnvironmentFlavour.AvailableFlavours.Select(f => new object[] { f }).ToArray();
     }
 }

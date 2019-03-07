@@ -19,17 +19,54 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Diagnostics.CodeAnalysis;
+using NUnit.Framework;
 
-namespace InexRef.HostEnvironment.Container
+namespace InexRef.HostEnvironment.Tests.NUnit.SpecificationFramework
 {
-    public static class ContainerExtensions
+    [SuppressMessage("NDepend", "ND2102:AvoidDefiningMultipleTypesInASourceFile")]
+    [TestFixture]
+    public abstract class SpecificationBase
     {
-        public static void ConfigureFrom<TModule>(this IServiceCollection serviceCollection)
-            where TModule : ContainerConfigurationModule, new()
+        protected Exception CaughtException { get; set; }
+
+        [OneTimeSetUp]
+        public void Init()
         {
-            var module = new TModule();
-            module.ConfigureContainer(serviceCollection);
+            SetUp();
+            Given();
+            When();
+        }
+
+        protected virtual void SetUp()
+        {
+        }
+
+        protected virtual void When() { }
+
+        protected virtual void Given() { }
+
+        [OneTimeTearDown]
+        public void TearDown()
+        {
+            Cleanup();
+        }
+
+        protected virtual void Cleanup()
+        {
+        }
+    }
+
+    public abstract class SpecificationBase<TSubject> : SpecificationBase
+    {
+        protected TSubject Subject { get; set; }
+
+        protected override void Cleanup()
+        {
+            base.Cleanup();
+            var disposable = Subject as IDisposable;
+            disposable?.Dispose();
         }
     }
 }

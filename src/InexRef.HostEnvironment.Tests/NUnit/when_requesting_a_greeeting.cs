@@ -19,17 +19,27 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
+using InexRef.HostEnvironment.Tests.Greeting;
+using InexRef.HostEnvironment.Tests.NUnit.SpecificationFramework;
 using Microsoft.Extensions.DependencyInjection;
+using Shouldly;
 
-namespace InexRef.HostEnvironment.Container
+namespace InexRef.HostEnvironment.Tests.NUnit
 {
-    public static class ContainerExtensions
+    public class when_requesting_a_greeeting : HostedFlavourTestBase
     {
-        public static void ConfigureFrom<TModule>(this IServiceCollection serviceCollection)
-            where TModule : ContainerConfigurationModule, new()
+        private IGreeting _greetingService;
+        private string _greeting;
+
+        public when_requesting_a_greeeting(string hostingFlavour) : base(hostingFlavour)
         {
-            var module = new TModule();
-            module.ConfigureContainer(serviceCollection);
         }
+
+        protected override void Given() => _greetingService = Container.GetRequiredService<IGreeting>();
+
+        protected override void When() => _greeting = _greetingService.Greet();
+
+        [Then]
+        public void the_greeting_should_match_the_host_flavour() => _greeting.ShouldBe(HostingFlavour);
     }
 }

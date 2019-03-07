@@ -19,17 +19,43 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
+using System;
+using InexRef.HostEnvironment.Hosting;
+using InexRef.HostEnvironment.TestEnvironment.NUnit;
+using InexRef.HostEnvironment.Tests.Greeting;
 using Microsoft.Extensions.DependencyInjection;
+using NUnit.Framework;
+using Shouldly;
 
-namespace InexRef.HostEnvironment.Container
+namespace InexRef.HostEnvironment.Tests.NUnit
 {
-    public static class ContainerExtensions
+    [TestFixtureSourceFlavours]
+    public class SimpleTests
     {
-        public static void ConfigureFrom<TModule>(this IServiceCollection serviceCollection)
-            where TModule : ContainerConfigurationModule, new()
+        private ServiceProvider Container { get; }
+
+        private string HostingFlavour { get; }
+
+        public SimpleTests(string hostingFlavour)
         {
-            var module = new TModule();
-            module.ConfigureContainer(serviceCollection);
+            HostingFlavour = hostingFlavour;
+            var serviceCollection = new ServiceCollection();
+            HostedEnvironmentFlavour.ConfigureContainerForHostEnvironmentFlavour(serviceCollection, hostingFlavour);
+            Container = serviceCollection.BuildServiceProvider();
+        }
+
+        [Test]
+        public void WriteGreeting()
+        {
+            foreach (var flavour in HostedEnvironmentFlavour.AvailableFlavours)
+            {
+                Console.WriteLine($"Flavour: {flavour}");
+            }
+
+            var greetingService = Container.GetService<IGreeting>();
+            var greeting = greetingService.Greet();
+            Console.WriteLine($"Greeting: {greeting}");
+            greeting.ShouldBe(HostingFlavour);
         }
     }
 }

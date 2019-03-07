@@ -5,11 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xUnit.BDD" Version="6.0.0" />
+    <PackageReference Include="NUnit" Version="3.11.0" />
+    <PackageReference Include="Shouldly" Version="3.0.2" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\InexRef.HostEnvironment.TestEnvironment.NUnit\InexRef.HostEnvironment.TestEnvironment.NUnit.csproj" />
     <ProjectReference Include="..\InexRef.HostEnvironment\InexRef.HostEnvironment.csproj" />
   </ItemGroup>
 

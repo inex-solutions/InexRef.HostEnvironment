@@ -19,22 +19,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using InexRef.HostEnvironment.Hosting;
-using Microsoft.Extensions.DependencyInjection;
+using NUnit.Framework;
 
-namespace InexRef.HostEnvironment.Tests
+namespace InexRef.HostEnvironment.Tests.NUnit.SpecificationFramework
 {
-    public static class TestEnvironmentSetup
+    public class ThenAttribute : TestAttribute
     {
-        public static void ConfigureContainerForHostEnvironmentFlavour(ServiceCollection containerBuilder, string flavour)
-        {
-            HostedEnvironmentFlavour.ConfigureContainerForHostEnvironmentFlavour(containerBuilder, flavour);
-        }
-
-        private static void ImportAssemblyContaining<T>()
-        {
-            // workaround - does nothing, but the explicit reference to type T ensures the assembly is imported. The 
-            // alternative is to dynamically load the assembly from, or copy it into the current directory. 
-        }
+        
     }
 }

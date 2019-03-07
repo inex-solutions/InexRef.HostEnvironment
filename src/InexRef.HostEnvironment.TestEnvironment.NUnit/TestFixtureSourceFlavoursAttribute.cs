@@ -19,42 +19,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using Xunit.Extensions;
+using NUnit.Framework;
 
-namespace InexRef.HostEnvironment.Tests.CalculatorTests
+namespace InexRef.HostEnvironment.TestEnvironment.NUnit
 {
-    public class when_adding_two_numbers : Specification
+    public class TestFixtureSourceFlavoursAttribute : TestFixtureSourceAttribute
     {
-        readonly Calculator calc;
-        int result;
-        private int count;
-        public when_adding_two_numbers()
+        public TestFixtureSourceFlavoursAttribute() : base(typeof(NUnitTestFixtureSource), "HostingFlavours")
         {
-            calc = new Calculator();
-        }
-
-        private int Increment()
-        {
-            return ++count;
-        }
-
-        protected override void Observe()
-        {
-            result = calc.Add(1, 2);
-            Console.WriteLine("I ran: " + Increment());
-        }
-
-        [Observation]
-        public void should_return_correct_result()
-        {
-            result.ShouldEqual(3);
-        }
-
-        [Observation]
-        public void and_something_else()
-        {
-            result.ShouldEqual(3);
         }
     }
 }

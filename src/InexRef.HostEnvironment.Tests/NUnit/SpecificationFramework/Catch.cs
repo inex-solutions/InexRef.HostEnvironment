@@ -19,17 +19,51 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Threading.Tasks;
 
-namespace InexRef.HostEnvironment.Container
+namespace InexRef.HostEnvironment.Tests.NUnit.SpecificationFramework
 {
-    public static class ContainerExtensions
+    public static class Catch
     {
-        public static void ConfigureFrom<TModule>(this IServiceCollection serviceCollection)
-            where TModule : ContainerConfigurationModule, new()
+        public static Exception Exception(Action action)
         {
-            var module = new TModule();
-            module.ConfigureContainer(serviceCollection);
+            try
+            {
+                action();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return ex;
+            }
+        }
+
+        public static async Task<Exception> AsyncException(Func<Task> action)
+        {
+            try
+            {
+                await action();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return ex;
+            }
+        }
+
+        public static async Task<Exception> AsyncException(Action action)
+        {
+            try
+            {
+                action();
+                await Task.CompletedTask;
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return ex;
+            }
         }
     }
 }
