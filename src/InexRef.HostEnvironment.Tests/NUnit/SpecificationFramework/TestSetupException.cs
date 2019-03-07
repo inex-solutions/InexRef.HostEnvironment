@@ -21,13 +21,12 @@
 
 using System;
 
-namespace InexRef.HostEnvironment.Tests.SpecificationFramework
+namespace InexRef.HostEnvironment.Tests.NUnit.SpecificationFramework
 {
-    public class SpecificationException : Exception
+    public class TestSetupException : Exception
     {
-        public SpecificationException(string message) : base(message)
+        public TestSetupException(string message) : base(message)
         {
-            
         }
     }
 }

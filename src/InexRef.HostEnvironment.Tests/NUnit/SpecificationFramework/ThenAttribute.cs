@@ -19,51 +19,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Threading.Tasks;
+using NUnit.Framework;
 
-namespace InexRef.HostEnvironment.Tests.SpecificationFramework
+namespace InexRef.HostEnvironment.Tests.NUnit.SpecificationFramework
 {
-    public static class Catch
+    public class ThenAttribute : TestAttribute
     {
-        public static Exception Exception(Action action)
-        {
-            try
-            {
-                action();
-                return null;
-            }
-            catch (Exception ex)
-            {
-                return ex;
-            }
-        }
-
-        public static async Task<Exception> AsyncException(Func<Task> action)
-        {
-            try
-            {
-                await action();
-                return null;
-            }
-            catch (Exception ex)
-            {
-                return ex;
-            }
-        }
-
-        public static async Task<Exception> AsyncException(Action action)
-        {
-            try
-            {
-                action();
-                await Task.CompletedTask;
-                return null;
-            }
-            catch (Exception ex)
-            {
-                return ex;
-            }
-        }
+        
     }
 }

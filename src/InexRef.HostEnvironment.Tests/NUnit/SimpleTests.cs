@@ -20,52 +20,42 @@
 #endregion
 
 using System;
-using System.Threading.Tasks;
+using InexRef.HostEnvironment.Hosting;
+using InexRef.HostEnvironment.TestEnvironment.NUnit;
+using InexRef.HostEnvironment.Tests.Greeting;
+using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
+using Shouldly;
 
-namespace InexRef.HostEnvironment.Tests.SpecificationFramework
+namespace InexRef.HostEnvironment.Tests.NUnit
 {
-    [TestFixture]
-    public abstract class SpecificationBaseAsync
+    [TestFixtureSourceFlavours]
+    public class SimpleTests
     {
-        protected Exception CaughtException { get; set; }
+        private ServiceProvider Container { get; }
 
-        [OneTimeSetUp]
-        public async Task Init()
+        private string HostingFlavour { get; }
+
+        public SimpleTests(string hostingFlavour)
         {
-            SetUp();
-            await Given();
-            await When();
+            HostingFlavour = hostingFlavour;
+            var serviceCollection = new ServiceCollection();
+            HostedEnvironmentFlavour.ConfigureContainerForHostEnvironmentFlavour(serviceCollection, hostingFlavour);
+            Container = serviceCollection.BuildServiceProvider();
         }
 
-        protected virtual void SetUp()
+        [Test]
+        public void WriteGreeting()
         {
-        }
+            foreach (var flavour in HostedEnvironmentFlavour.AvailableFlavours)
+            {
+                Console.WriteLine($"Flavour: {flavour}");
+            }
 
-        protected virtual async Task When() => await Task.CompletedTask;
-
-        protected virtual async Task Given() => await Task.CompletedTask;
-
-        [OneTimeTearDown]
-        public void TearDown()
-        {
-            Cleanup();
-        }
-
-        protected virtual void Cleanup()
-        {
-        }
-    }
-
-    public abstract class SpecificationBaseAsync<TSubject> : SpecificationBaseAsync
-    {
-        protected TSubject Subject { get; set; }
-
-        protected override void Cleanup()
-        {
-            base.Cleanup();
-            var disposable = Subject as IDisposable;
-            disposable?.Dispose();
+            var greetingService = Container.GetService<IGreeting>();
+            var greeting = greetingService.Greet();
+            Console.WriteLine($"Greeting: {greeting}");
+            greeting.ShouldBe(HostingFlavour);
         }
     }
 }

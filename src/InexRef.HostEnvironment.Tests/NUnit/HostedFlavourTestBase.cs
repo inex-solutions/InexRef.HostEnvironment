@@ -20,14 +20,13 @@
 #endregion
 
 using InexRef.HostEnvironment.Hosting;
-using InexRef.HostEnvironment.Tests.SpecificationFramework;
-using InexRef.HostEnvironment.Tests.TestEnvironment;
+using InexRef.HostEnvironment.TestEnvironment.NUnit;
+using InexRef.HostEnvironment.Tests.NUnit.SpecificationFramework;
 using Microsoft.Extensions.DependencyInjection;
-using NUnit.Framework;
 
-namespace InexRef.HostEnvironment.Tests
+namespace InexRef.HostEnvironment.Tests.NUnit
 {
-    [TestFixtureSource(typeof(NUnitTestFixtureSource), "HostingFlavours")]
+    [TestFixtureSourceFlavours]
     public abstract class HostedFlavourTestBase : SpecificationBase
     {
         protected string HostingFlavour { get; }

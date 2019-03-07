@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\InexRef.HostEnvironment.TestEnvironment.NUnit\InexRef.HostEnvironment.TestEnvironment.NUnit.csproj" />
     <ProjectReference Include="..\InexRef.HostEnvironment\InexRef.HostEnvironment.csproj" />
   </ItemGroup>
 

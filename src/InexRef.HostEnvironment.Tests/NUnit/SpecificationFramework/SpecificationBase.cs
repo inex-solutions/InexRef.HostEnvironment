@@ -19,30 +19,54 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using InexRef.HostEnvironment.Tests.Greeting;
-using InexRef.HostEnvironment.Tests.SpecificationFramework;
-using InexRef.HostEnvironment.Tests.TestEnvironment;
-using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Diagnostics.CodeAnalysis;
 using NUnit.Framework;
-using Shouldly;
 
-namespace InexRef.HostEnvironment.Tests
+namespace InexRef.HostEnvironment.Tests.NUnit.SpecificationFramework
 {
-    [TestFixtureSource(typeof(NUnitTestFixtureSource), "HostingFlavours")]
-    public class when_requesting_a_greeeting : HostedFlavourTestBase
+    [SuppressMessage("NDepend", "ND2102:AvoidDefiningMultipleTypesInASourceFile")]
+    [TestFixture]
+    public abstract class SpecificationBase
     {
-        private IGreeting _greetingService;
-        private string _greeting;
+        protected Exception CaughtException { get; set; }
 
-        public when_requesting_a_greeeting(string hostingFlavour) : base(hostingFlavour)
+        [OneTimeSetUp]
+        public void Init()
+        {
+            SetUp();
+            Given();
+            When();
+        }
+
+        protected virtual void SetUp()
         {
         }
 
-        protected override void Given() => _greetingService = Container.GetRequiredService<IGreeting>();
+        protected virtual void When() { }
 
-        protected override void When() => _greeting = _greetingService.Greet();
+        protected virtual void Given() { }
 
-        [Then]
-        public void the_greeting_should_match_the_host_flavour() => _greeting.ShouldBe(HostingFlavour);
+        [OneTimeTearDown]
+        public void TearDown()
+        {
+            Cleanup();
+        }
+
+        protected virtual void Cleanup()
+        {
+        }
+    }
+
+    public abstract class SpecificationBase<TSubject> : SpecificationBase
+    {
+        protected TSubject Subject { get; set; }
+
+        protected override void Cleanup()
+        {
+            base.Cleanup();
+            var disposable = Subject as IDisposable;
+            disposable?.Dispose();
+        }
     }
 }

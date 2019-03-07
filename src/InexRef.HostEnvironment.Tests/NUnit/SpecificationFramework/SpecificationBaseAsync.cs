@@ -20,42 +20,52 @@
 #endregion
 
 using System;
-using InexRef.HostEnvironment.Hosting;
-using InexRef.HostEnvironment.Tests.Greeting;
-using InexRef.HostEnvironment.Tests.TestEnvironment;
-using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
 using NUnit.Framework;
-using Shouldly;
 
-namespace InexRef.HostEnvironment.Tests
+namespace InexRef.HostEnvironment.Tests.NUnit.SpecificationFramework
 {
-    [TestFixtureSource(typeof(NUnitTestFixtureSource), "HostingFlavours")]
-    public class SimpleTests
+    [TestFixture]
+    public abstract class SpecificationBaseAsync
     {
-        private ServiceProvider Container { get; }
+        protected Exception CaughtException { get; set; }
 
-        private string HostingFlavour { get; }
-
-        public SimpleTests(string hostingFlavour)
+        [OneTimeSetUp]
+        public async Task Init()
         {
-            HostingFlavour = hostingFlavour;
-            var serviceCollection = new ServiceCollection();
-            HostedEnvironmentFlavour.ConfigureContainerForHostEnvironmentFlavour(serviceCollection, hostingFlavour);
-            Container = serviceCollection.BuildServiceProvider();
+            SetUp();
+            await Given();
+            await When();
         }
 
-        [Test]
-        public void WriteGreeting()
+        protected virtual void SetUp()
         {
-            foreach (var flavour in HostedEnvironmentFlavour.AvailableFlavours)
-            {
-                Console.WriteLine($"Flavour: {flavour}");
-            }
+        }
 
-            var greetingService = Container.GetService<IGreeting>();
-            var greeting = greetingService.Greet();
-            Console.WriteLine($"Greeting: {greeting}");
-            greeting.ShouldBe(HostingFlavour);
+        protected virtual async Task When() => await Task.CompletedTask;
+
+        protected virtual async Task Given() => await Task.CompletedTask;
+
+        [OneTimeTearDown]
+        public void TearDown()
+        {
+            Cleanup();
+        }
+
+        protected virtual void Cleanup()
+        {
+        }
+    }
+
+    public abstract class SpecificationBaseAsync<TSubject> : SpecificationBaseAsync
+    {
+        protected TSubject Subject { get; set; }
+
+        protected override void Cleanup()
+        {
+            base.Cleanup();
+            var disposable = Subject as IDisposable;
+            disposable?.Dispose();
         }
     }
 }
