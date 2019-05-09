@@ -40,7 +40,7 @@ namespace InexRef.HostEnvironment.Hosting
 
             HostingFlavoursConfiguration = hostingFlavours;
             AvailableFlavours = hostingFlavours.AvailableFlavours.SplitAndTrim(",");
-
+            DefaultFlavour = hostingFlavours.Default;
             VerifyConfiguration();
         }
 
@@ -56,10 +56,20 @@ namespace InexRef.HostEnvironment.Hosting
                     $"available flavours list: {AvailableFlavours.ToBulletList()}\n";
                 throw new HostedEnvironmentConfigurationException(msg);
             }
+
+            if (!AvailableFlavours.Contains(DefaultFlavour))
+            {
+                var msg =
+                    "Hosting Flavours Configuration Error - specified default flavour is not in the available flavours list" +
+                    $"default flavour: {DefaultFlavour}\n" +
+                    $"available flavours list: {AvailableFlavours.ToBulletList()}\n";
+                throw new HostedEnvironmentConfigurationException(msg);
+            }
         }
 
         public static IEnumerable<string> AvailableFlavours { get; }
 
+        public static string DefaultFlavour { get; }
 
         public static void ConfigureContainerForHostEnvironmentFlavour(ServiceCollection builder, string flavour)
         {

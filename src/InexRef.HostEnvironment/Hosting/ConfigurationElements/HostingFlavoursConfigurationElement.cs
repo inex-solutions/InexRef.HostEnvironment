@@ -26,6 +26,9 @@ namespace InexRef.HostEnvironment.Hosting.ConfigurationElements
     public class HostingFlavoursConfigurationElement
     {
         [XmlAttribute]
+        public string Default { get; set; }
+
+        [XmlAttribute]
         public string AvailableFlavours { get; set; }
 
         [XmlElement]

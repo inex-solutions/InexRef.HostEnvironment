@@ -1,5 +1,6 @@
 ﻿{
   "HostingFlavours": {
+    "Default": "Hello", 
     "AvailableFlavours": "Hello,Wotcha",
     "HostingFlavour": [
       {
