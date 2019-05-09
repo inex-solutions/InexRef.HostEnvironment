@@ -20,73 +20,34 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using InexRef.HostEnvironment.Container;
 using InexRef.HostEnvironment.Hosting.ConfigurationElements;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace InexRef.HostEnvironment.Hosting
 {
-    public static class HostedEnvironmentFlavour
+    public class HostedEnvironmentFlavour
     {
-        private static readonly HostingFlavoursConfigurationElement HostingFlavoursConfiguration;
+        private ContainerBuilderElement[] _containerBuilders;
 
-        static HostedEnvironmentFlavour()
+        internal HostedEnvironmentFlavour(HostingFlavourElement hostingFlavourElement)
         {
-            var hostingFlavours = new HostingFlavoursConfigurationElement();
-            HostedEnvironmentConfiguration.ConfigurationRoot.GetSection("HostingFlavours").Bind(hostingFlavours);
-
-            HostingFlavoursConfiguration = hostingFlavours;
-            AvailableFlavours = hostingFlavours.AvailableFlavours.SplitAndTrim(",");
-            DefaultFlavour = hostingFlavours.Default;
-            VerifyConfiguration();
+            Name = hostingFlavourElement.Name;
+            _containerBuilders = hostingFlavourElement.ContainerBuilders;
         }
 
-        private static void VerifyConfiguration()
+        public string Name { get; }
+
+        public void ConfigureContainer(ServiceCollection builder)
         {
-            var flavourConfigurationBlocks = HostingFlavoursConfiguration.HostingFlavour.Select(f => f.Name).ToArray();
-
-            if (!AvailableFlavours.All(f => flavourConfigurationBlocks.Contains(f)))
-            {
-                var msg =
-                    "Hosting Flavours Configuration Error - not all specified available flavours have corresponding configuration blocks" +
-                    $"flavour configuration blocks: {flavourConfigurationBlocks.ToBulletList()}\n" +
-                    $"available flavours list: {AvailableFlavours.ToBulletList()}\n";
-                throw new HostedEnvironmentConfigurationException(msg);
-            }
-
-            if (!AvailableFlavours.Contains(DefaultFlavour))
-            {
-                var msg =
-                    "Hosting Flavours Configuration Error - specified default flavour is not in the available flavours list" +
-                    $"default flavour: {DefaultFlavour}\n" +
-                    $"available flavours list: {AvailableFlavours.ToBulletList()}\n";
-                throw new HostedEnvironmentConfigurationException(msg);
-            }
-        }
-
-        public static IEnumerable<string> AvailableFlavours { get; }
-
-        public static string DefaultFlavour { get; }
-
-        public static void ConfigureContainerForHostEnvironmentFlavour(ServiceCollection builder, string flavour)
-        {
-            var hostingFlavourConfiguration = HostingFlavoursConfiguration.HostingFlavour.FirstOrDefault(f => f.Name == flavour);
-
-            if (hostingFlavourConfiguration == null)
-            {
-                throw new HostedEnvironmentConfigurationException(
-                    $"Requested hosted environment flavour '{flavour}' not found. Available flavours are {string.Join(",", HostingFlavoursConfiguration.AvailableFlavours)}");
-            }
-
-            foreach (var item in hostingFlavourConfiguration.ContainerBuilders)
+            foreach (var item in _containerBuilders)
             {
                 var type = Type.GetType(item.Type);
-                var module = (ContainerConfigurationModule) Activator.CreateInstance(type);
+                var module = (ContainerConfigurationModule)Activator.CreateInstance(type);
                 module.ConfigureContainer(builder);
             }
         }
+
+        public override string ToString() => $"{GetType().Name}: \"{Name}\"";
     }
 }

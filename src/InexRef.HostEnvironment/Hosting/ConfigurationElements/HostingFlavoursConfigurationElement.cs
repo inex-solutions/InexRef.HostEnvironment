@@ -32,6 +32,6 @@ namespace InexRef.HostEnvironment.Hosting.ConfigurationElements
         public string AvailableFlavours { get; set; }
 
         [XmlElement]
-        public HostingFlavourElement[] HostingFlavour { get; set; }
+        public HostingFlavourElement[] HostingFlavours { get; set; }
     }
 }

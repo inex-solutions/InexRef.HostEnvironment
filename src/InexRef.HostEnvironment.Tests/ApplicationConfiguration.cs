@@ -22,17 +22,18 @@
 using System.IO;
 using Microsoft.Extensions.Configuration;
 
-namespace InexRef.HostEnvironment.Hosting
+namespace InexRef.HostEnvironment.Tests
 {
-    public static class HostedEnvironmentConfiguration
+    public static class ApplicationConfiguration
     {
-        static HostedEnvironmentConfiguration()
+        static ApplicationConfiguration()
         {
-            ConfigurationRoot = new ConfigurationBuilder()
+            var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile(new FileInfo(@"..\..\..\config.json").FullName, optional: true, reloadOnChange: false)
-                .AddEnvironmentVariables("INEXREFHOSTING_")
-                .Build();
+                .AddJsonFile(new FileInfo(@"..\..\..\config.json").FullName, optional: true, reloadOnChange: false);
+            builder.AddEnvironmentVariables("INEXREFHOSTING_");
+
+            ConfigurationRoot = builder.Build();
         }
 
         public static IConfigurationRoot ConfigurationRoot { get; }

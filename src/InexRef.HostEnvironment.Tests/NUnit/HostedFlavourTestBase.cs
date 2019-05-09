@@ -29,20 +29,19 @@ namespace InexRef.HostEnvironment.Tests.NUnit
     [TestFixtureSourceFlavours]
     public abstract class HostedFlavourTestBase : SpecificationBase
     {
-        protected string HostingFlavour { get; }
+        protected HostedEnvironmentFlavour HostingFlavour { get; }
 
         protected ServiceProvider Container { get; private set; }
 
-        protected HostedFlavourTestBase(string hostingFlavour)
+        protected HostedFlavourTestBase(HostedEnvironmentFlavour hostingFlavour)
         {
             HostingFlavour = hostingFlavour;
-
         }
 
         protected override void SetUp()
         {
             var serviceCollection = new ServiceCollection();
-            HostedEnvironmentFlavour.ConfigureContainerForHostEnvironmentFlavour(serviceCollection, HostingFlavour);
+            HostingFlavour.ConfigureContainer(serviceCollection);
             Container = serviceCollection.BuildServiceProvider();
         }
     }

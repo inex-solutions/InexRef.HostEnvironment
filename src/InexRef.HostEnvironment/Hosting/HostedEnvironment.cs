@@ -19,17 +19,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Microsoft.Extensions.DependencyInjection;
+using InexRef.HostEnvironment.Hosting.ConfigurationElements;
 
-namespace InexRef.HostEnvironment.Container
+namespace InexRef.HostEnvironment.Hosting
 {
-    public static class ContainerExtensions
+    public class HostedEnvironment
     {
-        public static void ConfigureFrom<TModule>(this IServiceCollection serviceCollection)
-            where TModule : ContainerConfigurationModule, new()
-        {
-            var module = new TModule();
-            module.ConfigureContainer(serviceCollection);
-        }
+        public static FlavoursConfiguration FlavoursConfiguration => new FlavoursConfiguration();
     }
 }

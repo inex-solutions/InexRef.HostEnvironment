@@ -19,6 +19,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
+using InexRef.HostEnvironment.Hosting;
 using InexRef.HostEnvironment.Tests.Greeting;
 using InexRef.HostEnvironment.Tests.NUnit.SpecificationFramework;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,7 +32,7 @@ namespace InexRef.HostEnvironment.Tests.NUnit
         private IGreeting _greetingService;
         private string _greeting;
 
-        public when_requesting_a_greeeting(string hostingFlavour) : base(hostingFlavour)
+        public when_requesting_a_greeeting(HostedEnvironmentFlavour hostingFlavour) : base(hostingFlavour)
         {
         }
 
@@ -40,6 +41,6 @@ namespace InexRef.HostEnvironment.Tests.NUnit
         protected override void When() => _greeting = _greetingService.Greet();
 
         [Then]
-        public void the_greeting_should_match_the_host_flavour() => _greeting.ShouldBe(HostingFlavour);
+        public void the_greeting_should_match_the_host_flavour() => _greeting.ShouldBe(HostingFlavour.Name);
     }
 }

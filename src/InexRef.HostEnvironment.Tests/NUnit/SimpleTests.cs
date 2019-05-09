@@ -34,20 +34,20 @@ namespace InexRef.HostEnvironment.Tests.NUnit
     {
         private ServiceProvider Container { get; }
 
-        private string HostingFlavour { get; }
+        private HostedEnvironmentFlavour HostingFlavour { get; }
 
-        public SimpleTests(string hostingFlavour)
+        public SimpleTests(HostedEnvironmentFlavour hostingFlavour)
         {
             HostingFlavour = hostingFlavour;
             var serviceCollection = new ServiceCollection();
-            HostedEnvironmentFlavour.ConfigureContainerForHostEnvironmentFlavour(serviceCollection, hostingFlavour);
+            HostingFlavour.ConfigureContainer(serviceCollection);
             Container = serviceCollection.BuildServiceProvider();
         }
 
         [Test]
         public void WriteGreeting()
         {
-            foreach (var flavour in HostedEnvironmentFlavour.AvailableFlavours)
+            foreach (var flavour in HostedEnvironment.FlavoursConfiguration.AvailableFlavours)
             {
                 Console.WriteLine($"Flavour: {flavour}");
             }
@@ -55,7 +55,7 @@ namespace InexRef.HostEnvironment.Tests.NUnit
             var greetingService = Container.GetService<IGreeting>();
             var greeting = greetingService.Greet();
             Console.WriteLine($"Greeting: {greeting}");
-            greeting.ShouldBe(HostingFlavour);
+            greeting.ShouldBe(HostingFlavour.Name);
         }
     }
 }

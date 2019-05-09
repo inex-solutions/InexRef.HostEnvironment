@@ -1,8 +1,8 @@
 ﻿{
   "HostingFlavours": {
-    "Default": "Hello", 
+    "Default": "Hello",
     "AvailableFlavours": "Hello,Wotcha",
-    "HostingFlavour": [
+    "HostingFlavours": [
       {
         "Name": "Hello",
         "ContainerBuilders": [

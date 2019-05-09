@@ -19,14 +19,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
+using System.Collections;
+using InexRef.HostEnvironment.Hosting;
 using NUnit.Framework;
 
 namespace InexRef.HostEnvironment.TestEnvironment.NUnit
 {
     public class TestFixtureSourceFlavoursAttribute : TestFixtureSourceAttribute
     {
-        public TestFixtureSourceFlavoursAttribute() : base(typeof(NUnitTestFixtureSource), "HostingFlavours")
+        public TestFixtureSourceFlavoursAttribute() : base(typeof(FlavourConfigurationEnumerable))
         {
+        }
+
+        public class FlavourConfigurationEnumerable : IEnumerable
+        {
+            public IEnumerator GetEnumerator() => HostedEnvironment.FlavoursConfiguration.AvailableFlavours.GetEnumerator();
+
         }
     }
 }
