@@ -34,6 +34,13 @@ namespace InexRef.HostEnvironment.Hosting
         public FlavoursConfiguration()
         {
             LoadConfiguration();
+            VerifyConfiguration();
+
+            var defaultFlavourConfig = _hostingFlavoursConfiguration.HostingFlavours.First(f => f.Name == _hostingFlavoursConfiguration.Default);
+            var availableFlavoursConfig = _hostingFlavoursConfiguration.HostingFlavours.Where(f => _hostingFlavoursConfiguration.AvailableFlavours.SplitAndTrim(",").Contains(f.Name));
+
+            DefaultFlavour = new HostedEnvironmentFlavour(defaultFlavourConfig);
+            AvailableFlavours = availableFlavoursConfig.Select(f => new HostedEnvironmentFlavour(f)).ToArray();
         }
 
         private void LoadConfiguration()
@@ -46,7 +53,10 @@ namespace InexRef.HostEnvironment.Hosting
 
             _hostingFlavoursConfiguration = new HostingFlavoursConfigurationElement();
             flavourConfigurationRoot.GetSection("HostingFlavours").Bind(_hostingFlavoursConfiguration);
+        }
 
+        private void VerifyConfiguration()
+        {
             var flavourConfigurationBlocks = _hostingFlavoursConfiguration.HostingFlavours.Select(f => f.Name).ToArray();
             var listedAvailableFlavours = _hostingFlavoursConfiguration.AvailableFlavours.SplitAndTrim(",").ToArray();
 
@@ -67,17 +77,10 @@ namespace InexRef.HostEnvironment.Hosting
                     $"available flavours list: {AvailableFlavours.ToBulletList()}\n";
                 throw new HostedEnvironmentConfigurationException(msg);
             }
-
-            var defaultFlavourConfig = _hostingFlavoursConfiguration.HostingFlavours.First(f => f.Name == _hostingFlavoursConfiguration.Default);
-            var availableFlavoursConfig = _hostingFlavoursConfiguration.HostingFlavours.Where(f => _hostingFlavoursConfiguration.AvailableFlavours.SplitAndTrim(",").Contains(f.Name));
-
-            DefaultFlavour = new HostedEnvironmentFlavour(defaultFlavourConfig);
-            AvailableFlavours = availableFlavoursConfig.Select(f => new HostedEnvironmentFlavour(f)).ToArray();
         }
 
+        public IEnumerable<HostedEnvironmentFlavour> AvailableFlavours { get; }
 
-        public IEnumerable<HostedEnvironmentFlavour> AvailableFlavours { get; private set; }
-
-        public HostedEnvironmentFlavour DefaultFlavour { get; private set; }
+        public HostedEnvironmentFlavour DefaultFlavour { get; }
     }
 }

@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.421
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InexRef.HostEnvironment", "InexRef.HostEnvironment\InexRef.HostEnvironment.csproj", "{EB7D7A0F-0185-47A8-AE3B-5E14FD364D90}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InexRef.HostEnvironment.Tests", "InexRef.HostEnvironment.Tests\InexRef.HostEnvironment.Tests.csproj", "{0529B0A4-D0ED-4E32-A1C5-6CC30A7DDD1F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InexRef.HostEnvironment.TestEnvironment.NUnit", "InexRef.HostEnvironment.TestEnvironment.NUnit\InexRef.HostEnvironment.TestEnvironment.NUnit.csproj", "{4C236E4D-D4B3-4EE3-A7F6-6156F0520721}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InexRef.HostEnvironment.TestEnvironment.NUnit", "InexRef.HostEnvironment.TestEnvironment.NUnit\InexRef.HostEnvironment.TestEnvironment.NUnit.csproj", "{4C236E4D-D4B3-4EE3-A7F6-6156F0520721}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,5 +33,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {97F7BB63-3B9A-4EC0-A491-40A60B7E4D1F}
+	EndGlobalSection
+	GlobalSection(NDepend) = preSolution
+		Project = ".\InexRef.HostEnvironment.ndproj"
 	EndGlobalSection
 EndGlobal

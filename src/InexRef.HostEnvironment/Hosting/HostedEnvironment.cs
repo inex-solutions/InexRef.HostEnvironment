@@ -19,8 +19,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using InexRef.HostEnvironment.Hosting.ConfigurationElements;
-
 namespace InexRef.HostEnvironment.Hosting
 {
     public class HostedEnvironment
