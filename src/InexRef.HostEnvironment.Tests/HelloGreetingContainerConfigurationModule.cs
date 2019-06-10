@@ -19,34 +19,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace InexRef.HostEnvironment.Hosting
+using InexRef.HostEnvironment.Container;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace InexRef.HostEnvironment.Tests
 {
-    public class HostedEnvironment
+    public class NullContainerConfigurationModule : ContainerConfigurationModule
     {
-        private static FlavoursConfiguration _flavoursConfiguration;
-
-        public static void SetFlavoursConfiguration(FlavoursConfiguration flavoursConfiguration)
+        protected override void Load(IServiceCollection containerBuilder)
         {
-            _flavoursConfiguration = flavoursConfiguration;
         }
-
-        public static void ResetFlavoursConfiguration()
-        {
-            SetFlavoursConfiguration(null);
-        }
-
-        public static FlavoursConfiguration FlavoursConfiguration
-        {
-            get
-            {
-                if (_flavoursConfiguration == null)
-                {
-                    _flavoursConfiguration = new FlavoursConfiguration();
-                }
-
-                return _flavoursConfiguration;
-            }
-        }
-
     }
 }

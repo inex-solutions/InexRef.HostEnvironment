@@ -19,43 +19,36 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 using InexRef.HostEnvironment.Hosting;
-using InexRef.HostEnvironment.TestEnvironment.NUnit;
-using InexRef.HostEnvironment.Tests.Greeting;
-using Microsoft.Extensions.DependencyInjection;
-using NUnit.Framework;
+using InexRef.HostEnvironment.Tests.Common;
+using InexRef.HostEnvironment.Tests.Common.SpecificationFramework;
 using Shouldly;
 
-namespace InexRef.HostEnvironment.Tests.NUnit
+namespace InexRef.HostEnvironment.Tests
 {
-    [TestFixtureSourceFlavours]
-    public class SimpleTests
+    public class when_an_available_flavour_is_not_present_in_the_hosting_flavours_list : HostedFlavourSpecificationBase
     {
-        private ServiceProvider Container { get; }
+        protected override void Given()
+            => EnvironmentConfigurationFile.Write(@"
+{
+  ""HostingFlavours"": {
+    ""Default"": ""Hello"",
+    ""AvailableFlavours"": ""Hello, Wotcha"",
+    ""HostingFlavours"": [
 
-        private HostedEnvironmentFlavour HostingFlavour { get; }
+      {
+        ""Name"": ""Hello"",
+        ""ContainerBuilders"": [
+          { ""Type"": ""InexRef.HostEnvironment.Tests.NullContainerConfigurationModule, InexRef.HostEnvironment.Tests"" }
+        ]
+      }
+    ]
+  }
+}");
 
-        public SimpleTests(HostedEnvironmentFlavour hostingFlavour)
-        {
-            HostingFlavour = hostingFlavour;
-            var serviceCollection = new ServiceCollection();
-            HostingFlavour.ConfigureContainer(serviceCollection);
-            Container = serviceCollection.BuildServiceProvider();
-        }
+        protected override void When() => CaughtException = Catch.Exception(() => FlavoursConfiguration = HostedEnvironment.FlavoursConfiguration);
 
-        [Test]
-        public void WriteGreeting()
-        {
-            foreach (var flavour in HostedEnvironment.FlavoursConfiguration.AvailableFlavours)
-            {
-                Console.WriteLine($"Flavour: {flavour}");
-            }
-
-            var greetingService = Container.GetService<IGreeting>();
-            var greeting = greetingService.Greet();
-            Console.WriteLine($"Greeting: {greeting}");
-            greeting.ShouldBe(HostingFlavour.Name);
-        }
+        [Then]
+        public void a_HostedEnvironmentConfigurationException_is_thrown() => CaughtException.ShouldBeOfType<HostedEnvironmentConfigurationException>();
     }
 }

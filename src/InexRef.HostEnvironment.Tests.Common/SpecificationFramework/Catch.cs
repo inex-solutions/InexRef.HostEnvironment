@@ -19,16 +19,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using InexRef.HostEnvironment.Container;
-using Microsoft.Extensions.DependencyInjection;
+using System;
 
-namespace InexRef.HostEnvironment.Tests.Greeting
+namespace InexRef.HostEnvironment.Tests.Common.SpecificationFramework
 {
-    public class WotchaGreetingContainerConfigurationModule : ContainerConfigurationModule
+    public static class Catch
     {
-        protected override void Load(IServiceCollection containerBuilder)
+        public static Exception Exception(Action action)
         {
-            containerBuilder.AddTransient<IGreeting, WotchaGreeting>();
+            try
+            {
+                action();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return ex;
+            }
         }
     }
 }

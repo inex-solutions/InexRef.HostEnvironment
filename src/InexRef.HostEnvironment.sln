@@ -9,6 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InexRef.HostEnvironment.Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InexRef.HostEnvironment.TestEnvironment.NUnit", "InexRef.HostEnvironment.TestEnvironment.NUnit\InexRef.HostEnvironment.TestEnvironment.NUnit.csproj", "{4C236E4D-D4B3-4EE3-A7F6-6156F0520721}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{76C8F50B-EB9C-4CE3-B18D-13453A2665A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InexRef.HostEnvironment.Tests.Common", "InexRef.HostEnvironment.Tests.Common\InexRef.HostEnvironment.Tests.Common.csproj", "{8BDD20A2-BBE1-40A0-8E4A-AD51A0956B9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InexRef.HostEnvironment.TestEnvironment.NUnit.Tests", "InexRef.HostEnvironment.TestEnvironment.NUnit.Tests\InexRef.HostEnvironment.TestEnvironment.NUnit.Tests.csproj", "{AEC877C7-CCF4-405C-9EFD-2B62EA567770}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,14 +33,24 @@ Global
 		{4C236E4D-D4B3-4EE3-A7F6-6156F0520721}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C236E4D-D4B3-4EE3-A7F6-6156F0520721}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C236E4D-D4B3-4EE3-A7F6-6156F0520721}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BDD20A2-BBE1-40A0-8E4A-AD51A0956B9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BDD20A2-BBE1-40A0-8E4A-AD51A0956B9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BDD20A2-BBE1-40A0-8E4A-AD51A0956B9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BDD20A2-BBE1-40A0-8E4A-AD51A0956B9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEC877C7-CCF4-405C-9EFD-2B62EA567770}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEC877C7-CCF4-405C-9EFD-2B62EA567770}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEC877C7-CCF4-405C-9EFD-2B62EA567770}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEC877C7-CCF4-405C-9EFD-2B62EA567770}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0529B0A4-D0ED-4E32-A1C5-6CC30A7DDD1F} = {76C8F50B-EB9C-4CE3-B18D-13453A2665A5}
+		{8BDD20A2-BBE1-40A0-8E4A-AD51A0956B9D} = {76C8F50B-EB9C-4CE3-B18D-13453A2665A5}
+		{AEC877C7-CCF4-405C-9EFD-2B62EA567770} = {76C8F50B-EB9C-4CE3-B18D-13453A2665A5}
+	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {97F7BB63-3B9A-4EC0-A491-40A60B7E4D1F}
-	EndGlobalSection
-	GlobalSection(NDepend) = preSolution
-		Project = ".\InexRef.HostEnvironment.ndproj"
 	EndGlobalSection
 EndGlobal

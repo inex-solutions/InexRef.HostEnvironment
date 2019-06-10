@@ -1,0 +1,21 @@
+
+{
+  "HostingFlavours": {
+    "Default": "Hello",
+    "AvailableFlavours": "Hello, Wotcha",
+    "HostingFlavours": [
+      {
+        "Name": "Hello",
+        "ContainerBuilders": [
+          { "Type": "InexRef.HostEnvironment.TestEnvironment.NUnit.Tests.Greeting.HelloGreetingContainerConfigurationModule, InexRef.HostEnvironment.TestEnvironment.NUnit.Tests" }
+        ]
+      },
+      {
+        "Name": "Wotcha",
+        "ContainerBuilders": [
+          { "Type": "InexRef.HostEnvironment.TestEnvironment.NUnit.Tests.Greeting.WotchaGreetingContainerConfigurationModule, InexRef.HostEnvironment.TestEnvironment.NUnit.Tests" }
+        ]
+      }
+    ]
+  }
+}

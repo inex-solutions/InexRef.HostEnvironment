@@ -19,34 +19,42 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace InexRef.HostEnvironment.Hosting
+using System;
+using InexRef.HostEnvironment.Hosting;
+using InexRef.HostEnvironment.TestEnvironment.NUnit.Tests.Greeting;
+using Microsoft.Extensions.DependencyInjection;
+using NUnit.Framework;
+using Shouldly;
+
+namespace InexRef.HostEnvironment.TestEnvironment.NUnit.Tests
 {
-    public class HostedEnvironment
+    [TestFixtureSourceFlavours]
+    public class SimpleTests
     {
-        private static FlavoursConfiguration _flavoursConfiguration;
+        private ServiceProvider Container { get; }
 
-        public static void SetFlavoursConfiguration(FlavoursConfiguration flavoursConfiguration)
+        private HostedEnvironmentFlavour HostingFlavour { get; }
+
+        public SimpleTests(HostedEnvironmentFlavour hostingFlavour)
         {
-            _flavoursConfiguration = flavoursConfiguration;
+            HostingFlavour = hostingFlavour;
+            var serviceCollection = new ServiceCollection();
+            HostingFlavour.ConfigureContainer(serviceCollection);
+            Container = serviceCollection.BuildServiceProvider();
         }
 
-        public static void ResetFlavoursConfiguration()
+        [Test]
+        public void WriteGreeting()
         {
-            SetFlavoursConfiguration(null);
-        }
-
-        public static FlavoursConfiguration FlavoursConfiguration
-        {
-            get
+            foreach (var flavour in HostedEnvironment.FlavoursConfiguration.AvailableFlavours)
             {
-                if (_flavoursConfiguration == null)
-                {
-                    _flavoursConfiguration = new FlavoursConfiguration();
-                }
-
-                return _flavoursConfiguration;
+                Console.WriteLine($"Flavour: {flavour}");
             }
-        }
 
+            var greetingService = Container.GetService<IGreeting>();
+            var greeting = greetingService.Greet();
+            Console.WriteLine($"Greeting: {greeting}");
+            greeting.ShouldBe(HostingFlavour.Name);
+        }
     }
 }

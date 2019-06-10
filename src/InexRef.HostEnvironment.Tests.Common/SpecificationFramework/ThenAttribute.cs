@@ -19,30 +19,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using InexRef.HostEnvironment.Hosting;
-using InexRef.HostEnvironment.TestEnvironment.NUnit;
-using InexRef.HostEnvironment.TestEnvironment.NUnit.SpecificationFramework;
-using Microsoft.Extensions.DependencyInjection;
+using NUnit.Framework;
 
-namespace InexRef.HostEnvironment.Tests.NUnit
+namespace InexRef.HostEnvironment.Tests.Common.SpecificationFramework
 {
-    [TestFixtureSourceFlavours]
-    public abstract class HostedFlavourTestBase : SpecificationBase
+    public class ThenAttribute : TestAttribute
     {
-        protected HostedEnvironmentFlavour HostingFlavour { get; }
-
-        protected ServiceProvider Container { get; private set; }
-
-        protected HostedFlavourTestBase(HostedEnvironmentFlavour hostingFlavour)
-        {
-            HostingFlavour = hostingFlavour;
-        }
-
-        protected override void SetUp()
-        {
-            var serviceCollection = new ServiceCollection();
-            HostingFlavour.ConfigureContainer(serviceCollection);
-            Container = serviceCollection.BuildServiceProvider();
-        }
+        
     }
 }

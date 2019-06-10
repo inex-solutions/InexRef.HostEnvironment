@@ -31,9 +31,9 @@ namespace InexRef.HostEnvironment.Hosting
     {
         private HostingFlavoursConfigurationElement _hostingFlavoursConfiguration;
 
-        public FlavoursConfiguration()
+        public FlavoursConfiguration(bool ignoreEnvironmentVariableOverrides = false)
         {
-            LoadConfiguration();
+            LoadConfiguration(ignoreEnvironmentVariableOverrides);
             VerifyConfiguration();
 
             var defaultFlavourConfig = _hostingFlavoursConfiguration.HostingFlavours.First(f => f.Name == _hostingFlavoursConfiguration.Default);
@@ -43,12 +43,18 @@ namespace InexRef.HostEnvironment.Hosting
             AvailableFlavours = availableFlavoursConfig.Select(f => new HostedEnvironmentFlavour(f)).ToArray();
         }
 
-        private void LoadConfiguration()
+        private void LoadConfiguration(bool ignoreEnvironmentVariableOverrides)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile(new FileInfo(@"..\..\..\config.json").FullName, optional: true, reloadOnChange: false)
                 .AddJsonFile(new FileInfo(@"..\..\..\flavours.json").FullName, optional: true, reloadOnChange: false);
+
+            if (!ignoreEnvironmentVariableOverrides)
+            {
+                builder.AddEnvironmentVariables("INEXREFHOSTING_");
+            }
+
             var flavourConfigurationRoot = builder.Build();
 
             _hostingFlavoursConfiguration = new HostingFlavoursConfigurationElement();
@@ -65,7 +71,7 @@ namespace InexRef.HostEnvironment.Hosting
                 var msg =
                     "Hosting Flavours Configuration Error - not all specified available flavours have corresponding configuration blocks" +
                     $"flavour configuration blocks: {flavourConfigurationBlocks.ToBulletList()}\n" +
-                    $"available flavours list: {AvailableFlavours.ToBulletList()}\n";
+                    $"available flavours list: {listedAvailableFlavours.ToBulletList()}\n";
                 throw new HostedEnvironmentConfigurationException(msg);
             }
 
@@ -73,8 +79,8 @@ namespace InexRef.HostEnvironment.Hosting
             {
                 var msg =
                     "Hosting Flavours Configuration Error - specified default flavour is not in the available flavours list" +
-                    $"default flavour: {DefaultFlavour}\n" +
-                    $"available flavours list: {AvailableFlavours.ToBulletList()}\n";
+                    $"default flavour: {_hostingFlavoursConfiguration.Default}\n" +
+                    $"available flavours list: {listedAvailableFlavours.ToBulletList()}\n";
                 throw new HostedEnvironmentConfigurationException(msg);
             }
         }

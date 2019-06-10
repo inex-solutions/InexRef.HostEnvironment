@@ -19,14 +19,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
+using InexRef.HostEnvironment.Container;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace InexRef.HostEnvironment.TestEnvironment.NUnit.SpecificationFramework
+namespace InexRef.HostEnvironment.TestEnvironment.NUnit.Tests.Greeting
 {
-    public class TestSetupException : Exception
+    public class WotchaGreetingContainerConfigurationModule : ContainerConfigurationModule
     {
-        public TestSetupException(string message) : base(message)
+        protected override void Load(IServiceCollection containerBuilder)
         {
+            containerBuilder.AddTransient<IGreeting, WotchaGreeting>();
         }
     }
 }

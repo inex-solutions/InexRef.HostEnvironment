@@ -19,10 +19,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace InexRef.HostEnvironment.Tests.Greeting
+namespace InexRef.HostEnvironment.TestEnvironment.NUnit.Tests.CalculatorTests
 {
-    public class HelloGreeting : IGreeting
+    public class Calculator
     {
-        public string Greet() => "Hello";
+        public int Add(int x, int y) => x + y;
     }
 }

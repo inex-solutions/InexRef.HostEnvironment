@@ -19,16 +19,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using InexRef.HostEnvironment.Container;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace InexRef.HostEnvironment.Tests.Greeting
+namespace InexRef.HostEnvironment.TestEnvironment.NUnit
 {
-    public class HelloGreetingContainerConfigurationModule : ContainerConfigurationModule
+    public interface IPreTestSetup
     {
-        protected override void Load(IServiceCollection containerBuilder)
-        {
-            containerBuilder.AddTransient<IGreeting, HelloGreeting>();
-        }
+        void SetupTest();
     }
 }

@@ -19,50 +19,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 
-namespace InexRef.HostEnvironment.TestEnvironment.NUnit.SpecificationFramework
+namespace InexRef.HostEnvironment.Tests.Common.SpecificationFramework
 {
-    public static class Catch
+    public static class ShouldExtensions
     {
-        public static Exception Exception(Action action)
+        public static void ShouldContainOnly<T>(this IEnumerable<T> actual, IEnumerable<T> expected)
         {
-            try
-            {
-                action();
-                return null;
-            }
-            catch (Exception ex)
-            {
-                return ex;
-            }
-        }
+            var comparisonResult = actual.CheckContainsOnly(expected);
 
-        public static async Task<Exception> AsyncException(Func<Task> action)
-        {
-            try
+            if (!comparisonResult.CollectionsMatch)
             {
-                await action();
-                return null;
-            }
-            catch (Exception ex)
-            {
-                return ex;
-            }
-        }
+                var msg =
+                    $"Expected list to contain: {comparisonResult.ExpectedItems.ToBulletList()}\n" +
+                    $"but contained: {comparisonResult.ActualItems.ToBulletList()}\n" +
+                    $"Missing: {comparisonResult.MissingItems.ToBulletList()}\n" +
+                    $"Unexpected: {comparisonResult.UnexpectedItems.ToBulletList()}";
 
-        public static async Task<Exception> AsyncException(Action action)
-        {
-            try
-            {
-                action();
-                await Task.CompletedTask;
-                return null;
-            }
-            catch (Exception ex)
-            {
-                return ex;
+                throw new SpecificationException(msg);
             }
         }
     }

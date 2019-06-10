@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.1.1" />
-    <PackageReference Include="NUnit" Version="3.11.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.13.0" />
     <PackageReference Include="Shouldly" Version="3.0.2" />
   </ItemGroup>
@@ -15,12 +14,6 @@
     <ProjectReference Include="..\InexRef.HostEnvironment.TestEnvironment.NUnit\InexRef.HostEnvironment.TestEnvironment.NUnit.csproj" />
     <ProjectReference Include="..\InexRef.HostEnvironment.Tests.Common\InexRef.HostEnvironment.Tests.Common.csproj" />
     <ProjectReference Include="..\InexRef.HostEnvironment\InexRef.HostEnvironment.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Microsoft.Extensions.DependencyInjection">
-      <HintPath>C:\Users\robdev\.nuget\packages\microsoft.extensions.dependencyinjection\2.2.0\lib\netcoreapp2.0\Microsoft.Extensions.DependencyInjection.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
   <ItemGroup>

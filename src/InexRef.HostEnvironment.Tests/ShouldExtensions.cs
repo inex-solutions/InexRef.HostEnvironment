@@ -19,34 +19,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace InexRef.HostEnvironment.Hosting
+using System.Linq;
+using InexRef.HostEnvironment.Hosting;
+using InexRef.HostEnvironment.Tests.Common.SpecificationFramework;
+
+namespace InexRef.HostEnvironment.Tests
 {
-    public class HostedEnvironment
+    public static class ShouldExtensions
     {
-        private static FlavoursConfiguration _flavoursConfiguration;
-
-        public static void SetFlavoursConfiguration(FlavoursConfiguration flavoursConfiguration)
+        public static void ShouldContainOnlyFlavours(this FlavoursConfiguration flavoursConfiguration, params string[] flavours)
         {
-            _flavoursConfiguration = flavoursConfiguration;
+            flavoursConfiguration.AvailableFlavours.Select(f => f.Name).ShouldContainOnly(flavours);
         }
-
-        public static void ResetFlavoursConfiguration()
-        {
-            SetFlavoursConfiguration(null);
-        }
-
-        public static FlavoursConfiguration FlavoursConfiguration
-        {
-            get
-            {
-                if (_flavoursConfiguration == null)
-                {
-                    _flavoursConfiguration = new FlavoursConfiguration();
-                }
-
-                return _flavoursConfiguration;
-            }
-        }
-
     }
 }

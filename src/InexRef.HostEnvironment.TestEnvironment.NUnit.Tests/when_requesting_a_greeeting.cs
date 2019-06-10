@@ -20,12 +20,12 @@
 #endregion
 
 using InexRef.HostEnvironment.Hosting;
-using InexRef.HostEnvironment.TestEnvironment.NUnit.SpecificationFramework;
-using InexRef.HostEnvironment.Tests.Greeting;
+using InexRef.HostEnvironment.TestEnvironment.NUnit.Tests.Greeting;
+using InexRef.HostEnvironment.Tests.Common.SpecificationFramework;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 
-namespace InexRef.HostEnvironment.Tests.NUnit
+namespace InexRef.HostEnvironment.TestEnvironment.NUnit.Tests
 {
     public class when_requesting_a_greeeting : HostedFlavourTestBase
     {

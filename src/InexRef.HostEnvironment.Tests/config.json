@@ -1,18 +1,14 @@
-﻿{
+
+{
   "HostingFlavours": {
-    "Default": "Hello",
-    "AvailableFlavours": "Hello,Wotcha",
+    "Default": "Wotcha",
+    "AvailableFlavours": "Hello",
     "HostingFlavours": [
+
       {
         "Name": "Hello",
         "ContainerBuilders": [
-          { "Type": "InexRef.HostEnvironment.Tests.Greeting.HelloGreetingContainerConfigurationModule, InexRef.HostEnvironment.Tests" }
-        ]
-      },
-      {
-        "Name": "Wotcha",
-        "ContainerBuilders": [
-          { "Type": "InexRef.HostEnvironment.Tests.Greeting.WotchaGreetingContainerConfigurationModule, InexRef.HostEnvironment.Tests" }
+          { "Type": "InexRef.HostEnvironment.Tests.NullContainerConfigurationModule, InexRef.HostEnvironment.Tests" }
         ]
       }
     ]

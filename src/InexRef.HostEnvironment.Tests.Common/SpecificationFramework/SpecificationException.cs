@@ -19,10 +19,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace InexRef.HostEnvironment.Tests.CalculatorTests
+using System;
+
+namespace InexRef.HostEnvironment.Tests.Common.SpecificationFramework
 {
-    public class Calculator
+    public class SpecificationException : Exception
     {
-        public int Add(int x, int y) => x + y;
+        public SpecificationException(string message) : base(message)
+        {
+            
+        }
     }
 }

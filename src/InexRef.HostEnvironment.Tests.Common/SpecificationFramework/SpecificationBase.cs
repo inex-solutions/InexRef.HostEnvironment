@@ -19,34 +19,40 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace InexRef.HostEnvironment.Hosting
+using System;
+using System.Diagnostics.CodeAnalysis;
+using NUnit.Framework;
+
+namespace InexRef.HostEnvironment.Tests.Common.SpecificationFramework
 {
-    public class HostedEnvironment
+    [SuppressMessage("NDepend", "ND2102:AvoidDefiningMultipleTypesInASourceFile")]
+    [TestFixture]
+    public abstract class SpecificationBase
     {
-        private static FlavoursConfiguration _flavoursConfiguration;
+        protected Exception CaughtException { get; set; }
 
-        public static void SetFlavoursConfiguration(FlavoursConfiguration flavoursConfiguration)
+        [OneTimeSetUp]
+        public void Init()
         {
-            _flavoursConfiguration = flavoursConfiguration;
+            SetUp();
+            Given();
+            When();
         }
 
-        public static void ResetFlavoursConfiguration()
+        protected virtual void SetUp() { }
+
+        protected virtual void When() { }
+
+        protected virtual void Given() { }
+
+        [OneTimeTearDown]
+        public void TearDown()
         {
-            SetFlavoursConfiguration(null);
+            Cleanup();
         }
 
-        public static FlavoursConfiguration FlavoursConfiguration
+        protected virtual void Cleanup()
         {
-            get
-            {
-                if (_flavoursConfiguration == null)
-                {
-                    _flavoursConfiguration = new FlavoursConfiguration();
-                }
-
-                return _flavoursConfiguration;
-            }
         }
-
     }
 }

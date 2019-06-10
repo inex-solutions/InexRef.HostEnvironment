@@ -19,34 +19,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace InexRef.HostEnvironment.Hosting
+using System.IO;
+
+namespace InexRef.HostEnvironment.TestEnvironment.NUnit
 {
-    public class HostedEnvironment
+    public abstract class PreTestConfigFileWriter : IPreTestSetup
     {
-        private static FlavoursConfiguration _flavoursConfiguration;
-
-        public static void SetFlavoursConfiguration(FlavoursConfiguration flavoursConfiguration)
+        public virtual void SetupTest()
         {
-            _flavoursConfiguration = flavoursConfiguration;
+            File.WriteAllText(@"..\..\..\config.json", ConfigFileContents);
         }
 
-        public static void ResetFlavoursConfiguration()
-        {
-            SetFlavoursConfiguration(null);
-        }
-
-        public static FlavoursConfiguration FlavoursConfiguration
-        {
-            get
-            {
-                if (_flavoursConfiguration == null)
-                {
-                    _flavoursConfiguration = new FlavoursConfiguration();
-                }
-
-                return _flavoursConfiguration;
-            }
-        }
-
+        protected virtual string ConfigFileContents { get; }
     }
 }

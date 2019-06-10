@@ -19,34 +19,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace InexRef.HostEnvironment.Hosting
+namespace InexRef.HostEnvironment.TestEnvironment.NUnit.Tests.Greeting
 {
-    public class HostedEnvironment
+    public class HelloGreeting : IGreeting
     {
-        private static FlavoursConfiguration _flavoursConfiguration;
-
-        public static void SetFlavoursConfiguration(FlavoursConfiguration flavoursConfiguration)
-        {
-            _flavoursConfiguration = flavoursConfiguration;
-        }
-
-        public static void ResetFlavoursConfiguration()
-        {
-            SetFlavoursConfiguration(null);
-        }
-
-        public static FlavoursConfiguration FlavoursConfiguration
-        {
-            get
-            {
-                if (_flavoursConfiguration == null)
-                {
-                    _flavoursConfiguration = new FlavoursConfiguration();
-                }
-
-                return _flavoursConfiguration;
-            }
-        }
-
+        public string Greet() => "Hello";
     }
 }

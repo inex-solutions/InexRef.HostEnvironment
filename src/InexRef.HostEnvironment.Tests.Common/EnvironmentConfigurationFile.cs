@@ -19,54 +19,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Diagnostics.CodeAnalysis;
-using NUnit.Framework;
+using System.IO;
 
-namespace InexRef.HostEnvironment.TestEnvironment.NUnit.SpecificationFramework
+namespace InexRef.HostEnvironment.Tests.Common
 {
-    [SuppressMessage("NDepend", "ND2102:AvoidDefiningMultipleTypesInASourceFile")]
-    [TestFixture]
-    public abstract class SpecificationBase
+    public class EnvironmentConfigurationFile
     {
-        protected Exception CaughtException { get; set; }
-
-        [OneTimeSetUp]
-        public void Init()
+        public static void Write(string configFileContents)
         {
-            SetUp();
-            Given();
-            When();
-        }
-
-        protected virtual void SetUp()
-        {
-        }
-
-        protected virtual void When() { }
-
-        protected virtual void Given() { }
-
-        [OneTimeTearDown]
-        public void TearDown()
-        {
-            Cleanup();
-        }
-
-        protected virtual void Cleanup()
-        {
-        }
-    }
-
-    public abstract class SpecificationBase<TSubject> : SpecificationBase
-    {
-        protected TSubject Subject { get; set; }
-
-        protected override void Cleanup()
-        {
-            base.Cleanup();
-            var disposable = Subject as IDisposable;
-            disposable?.Dispose();
+            File.WriteAllText(@"..\..\..\config.json", configFileContents);
         }
     }
 }

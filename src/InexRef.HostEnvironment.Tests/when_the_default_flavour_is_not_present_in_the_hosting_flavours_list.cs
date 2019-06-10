@@ -19,12 +19,36 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using NUnit.Framework;
+using InexRef.HostEnvironment.Hosting;
+using InexRef.HostEnvironment.Tests.Common;
+using InexRef.HostEnvironment.Tests.Common.SpecificationFramework;
+using Shouldly;
 
-namespace InexRef.HostEnvironment.TestEnvironment.NUnit.SpecificationFramework
+namespace InexRef.HostEnvironment.Tests
 {
-    public class ThenAttribute : TestAttribute
+    public class when_the_default_flavour_is_not_present_in_the_hosting_flavours_list : HostedFlavourSpecificationBase
     {
-        
+        protected override void Given()
+            => EnvironmentConfigurationFile.Write(@"
+{
+  ""HostingFlavours"": {
+    ""Default"": ""Wotcha"",
+    ""AvailableFlavours"": ""Hello"",
+    ""HostingFlavours"": [
+
+      {
+        ""Name"": ""Hello"",
+        ""ContainerBuilders"": [
+          { ""Type"": ""InexRef.HostEnvironment.Tests.NullContainerConfigurationModule, InexRef.HostEnvironment.Tests"" }
+        ]
+      }
+    ]
+  }
+}");
+
+        protected override void When() => CaughtException = Catch.Exception(() => FlavoursConfiguration = HostedEnvironment.FlavoursConfiguration);
+
+        [Then]
+        public void a_HostedEnvironmentConfigurationException_is_thrown() => CaughtException.ShouldBeOfType<HostedEnvironmentConfigurationException>();
     }
 }

@@ -19,10 +19,29 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace InexRef.HostEnvironment.Tests.Greeting
+using InexRef.HostEnvironment.Hosting;
+using InexRef.HostEnvironment.Tests.Common.SpecificationFramework;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace InexRef.HostEnvironment.TestEnvironment.NUnit.Tests
 {
-    public class WotchaGreeting : IGreeting
+    [TestFixtureSourceFlavours]
+    public abstract class HostedFlavourTestBase : SpecificationBase
     {
-        public string Greet() => "Wotcha";
+        protected HostedEnvironmentFlavour HostingFlavour { get; }
+
+        protected ServiceProvider Container { get; private set; }
+
+        protected HostedFlavourTestBase(HostedEnvironmentFlavour hostingFlavour)
+        {
+            HostingFlavour = hostingFlavour;
+        }
+
+        protected override void SetUp()
+        {
+            var serviceCollection = new ServiceCollection();
+            HostingFlavour.ConfigureContainer(serviceCollection);
+            Container = serviceCollection.BuildServiceProvider();
+        }
     }
 }

@@ -19,34 +19,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace InexRef.HostEnvironment.Hosting
+using System;
+
+namespace InexRef.HostEnvironment.TestEnvironment.NUnit
 {
-    public class HostedEnvironment
+    public class TestFixtureFlavourConfigurationException : Exception
     {
-        private static FlavoursConfiguration _flavoursConfiguration;
-
-        public static void SetFlavoursConfiguration(FlavoursConfiguration flavoursConfiguration)
+        public TestFixtureFlavourConfigurationException(string message) : base(message)
         {
-            _flavoursConfiguration = flavoursConfiguration;
+            
         }
-
-        public static void ResetFlavoursConfiguration()
-        {
-            SetFlavoursConfiguration(null);
-        }
-
-        public static FlavoursConfiguration FlavoursConfiguration
-        {
-            get
-            {
-                if (_flavoursConfiguration == null)
-                {
-                    _flavoursConfiguration = new FlavoursConfiguration();
-                }
-
-                return _flavoursConfiguration;
-            }
-        }
-
     }
 }

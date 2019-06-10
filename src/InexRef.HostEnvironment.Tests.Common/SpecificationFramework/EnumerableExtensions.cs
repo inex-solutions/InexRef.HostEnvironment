@@ -22,7 +22,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace InexRef.HostEnvironment.TestEnvironment.NUnit.SpecificationFramework
+namespace InexRef.HostEnvironment.Tests.Common.SpecificationFramework
 {
     public static class EnumerableExtensions
     {

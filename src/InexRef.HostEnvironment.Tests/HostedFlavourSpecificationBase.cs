@@ -20,14 +20,20 @@
 #endregion
 
 using System;
+using InexRef.HostEnvironment.Hosting;
+using InexRef.HostEnvironment.Tests.Common.SpecificationFramework;
 
-namespace InexRef.HostEnvironment.TestEnvironment.NUnit.SpecificationFramework
+namespace InexRef.HostEnvironment.Tests
 {
-    public class SpecificationException : Exception
+    public abstract class HostedFlavourSpecificationBase : SpecificationBase
     {
-        public SpecificationException(string message) : base(message)
+        protected override void SetUp()
         {
-            
+            HostedEnvironment.ResetFlavoursConfiguration();
+            Environment.SetEnvironmentVariable("INEXREFHOSTING_HostingFlavours__Default", null);
+            Environment.SetEnvironmentVariable("INEXREFHOSTING_HostingFlavours__AvailableFlavours", null);
         }
+
+        protected FlavoursConfiguration FlavoursConfiguration { get; set; }
     }
 }
