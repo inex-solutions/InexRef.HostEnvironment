@@ -20,50 +20,53 @@
 #endregion
 
 using System;
-using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
+using NUnit.Framework;
 
-namespace InexRef.HostEnvironment.Tests.NUnit.SpecificationFramework
+namespace InexRef.HostEnvironment.TestEnvironment.NUnit.SpecificationFramework
 {
-    public static class Catch
+    [SuppressMessage("NDepend", "ND2102:AvoidDefiningMultipleTypesInASourceFile")]
+    [TestFixture]
+    public abstract class SpecificationBase
     {
-        public static Exception Exception(Action action)
+        protected Exception CaughtException { get; set; }
+
+        [OneTimeSetUp]
+        public void Init()
         {
-            try
-            {
-                action();
-                return null;
-            }
-            catch (Exception ex)
-            {
-                return ex;
-            }
+            SetUp();
+            Given();
+            When();
         }
 
-        public static async Task<Exception> AsyncException(Func<Task> action)
+        protected virtual void SetUp()
         {
-            try
-            {
-                await action();
-                return null;
-            }
-            catch (Exception ex)
-            {
-                return ex;
-            }
         }
 
-        public static async Task<Exception> AsyncException(Action action)
+        protected virtual void When() { }
+
+        protected virtual void Given() { }
+
+        [OneTimeTearDown]
+        public void TearDown()
         {
-            try
-            {
-                action();
-                await Task.CompletedTask;
-                return null;
-            }
-            catch (Exception ex)
-            {
-                return ex;
-            }
+            Cleanup();
+        }
+
+        protected virtual void Cleanup()
+        {
+        }
+    }
+
+    public abstract class SpecificationBase<TSubject> : SpecificationBase
+    {
+        protected TSubject Subject { get; set; }
+
+        protected override void Cleanup()
+        {
+            base.Cleanup();
+            var disposable = Subject as IDisposable;
+            disposable?.Dispose();
         }
     }
 }

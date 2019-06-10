@@ -20,8 +20,8 @@
 #endregion
 
 using InexRef.HostEnvironment.Hosting;
+using InexRef.HostEnvironment.TestEnvironment.NUnit.SpecificationFramework;
 using InexRef.HostEnvironment.Tests.Greeting;
-using InexRef.HostEnvironment.Tests.NUnit.SpecificationFramework;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 

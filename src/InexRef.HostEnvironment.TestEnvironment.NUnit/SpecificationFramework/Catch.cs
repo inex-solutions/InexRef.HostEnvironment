@@ -20,53 +20,50 @@
 #endregion
 
 using System;
-using System.Diagnostics.CodeAnalysis;
-using NUnit.Framework;
+using System.Threading.Tasks;
 
-namespace InexRef.HostEnvironment.Tests.NUnit.SpecificationFramework
+namespace InexRef.HostEnvironment.TestEnvironment.NUnit.SpecificationFramework
 {
-    [SuppressMessage("NDepend", "ND2102:AvoidDefiningMultipleTypesInASourceFile")]
-    [TestFixture]
-    public abstract class SpecificationBase
+    public static class Catch
     {
-        protected Exception CaughtException { get; set; }
-
-        [OneTimeSetUp]
-        public void Init()
+        public static Exception Exception(Action action)
         {
-            SetUp();
-            Given();
-            When();
+            try
+            {
+                action();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return ex;
+            }
         }
 
-        protected virtual void SetUp()
+        public static async Task<Exception> AsyncException(Func<Task> action)
         {
+            try
+            {
+                await action();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return ex;
+            }
         }
 
-        protected virtual void When() { }
-
-        protected virtual void Given() { }
-
-        [OneTimeTearDown]
-        public void TearDown()
+        public static async Task<Exception> AsyncException(Action action)
         {
-            Cleanup();
-        }
-
-        protected virtual void Cleanup()
-        {
-        }
-    }
-
-    public abstract class SpecificationBase<TSubject> : SpecificationBase
-    {
-        protected TSubject Subject { get; set; }
-
-        protected override void Cleanup()
-        {
-            base.Cleanup();
-            var disposable = Subject as IDisposable;
-            disposable?.Dispose();
+            try
+            {
+                action();
+                await Task.CompletedTask;
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return ex;
+            }
         }
     }
 }

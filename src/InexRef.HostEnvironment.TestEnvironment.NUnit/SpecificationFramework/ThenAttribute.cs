@@ -19,15 +19,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
+using NUnit.Framework;
 
-namespace InexRef.HostEnvironment.Tests.NUnit.SpecificationFramework
+namespace InexRef.HostEnvironment.TestEnvironment.NUnit.SpecificationFramework
 {
-    public class SpecificationException : Exception
+    public class ThenAttribute : TestAttribute
     {
-        public SpecificationException(string message) : base(message)
-        {
-            
-        }
+        
     }
 }

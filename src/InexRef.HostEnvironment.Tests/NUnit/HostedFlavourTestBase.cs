@@ -21,7 +21,7 @@
 
 using InexRef.HostEnvironment.Hosting;
 using InexRef.HostEnvironment.TestEnvironment.NUnit;
-using InexRef.HostEnvironment.Tests.NUnit.SpecificationFramework;
+using InexRef.HostEnvironment.TestEnvironment.NUnit.SpecificationFramework;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace InexRef.HostEnvironment.Tests.NUnit
