@@ -20,6 +20,8 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Linq;
+using InexRef.HostEnvironment.Hosting;
 
 namespace InexRef.HostEnvironment.Tests.Common.SpecificationFramework
 {
@@ -39,6 +41,11 @@ namespace InexRef.HostEnvironment.Tests.Common.SpecificationFramework
 
                 throw new SpecificationException(msg);
             }
+        }
+
+        public static void ShouldContainOnlyFlavours(this FlavoursConfiguration flavoursConfiguration, params string[] flavours)
+        {
+            flavoursConfiguration.AvailableFlavours.Select(f => f.Name).ShouldContainOnly(flavours);
         }
     }
 }

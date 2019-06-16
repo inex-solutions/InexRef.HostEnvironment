@@ -19,9 +19,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 using InexRef.HostEnvironment.Hosting;
-using InexRef.HostEnvironment.TestEnvironment.NUnit.Tests.Greeting;
+using InexRef.HostEnvironment.Tests.Common.SpecificationFramework;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using Shouldly;
@@ -29,32 +28,27 @@ using Shouldly;
 namespace InexRef.HostEnvironment.TestEnvironment.NUnit.Tests
 {
     [TestFixtureSourceFlavours]
-    public class SimpleTests
+    public class HostedFlavourConfigurationTests
     {
-        private ServiceProvider Container { get; }
-
         private HostedEnvironmentFlavour HostingFlavour { get; }
 
-        public SimpleTests(HostedEnvironmentFlavour hostingFlavour)
+        public HostedFlavourConfigurationTests(HostedEnvironmentFlavour hostingFlavour)
         {
             HostingFlavour = hostingFlavour;
             var serviceCollection = new ServiceCollection();
             HostingFlavour.ConfigureContainer(serviceCollection);
-            Container = serviceCollection.BuildServiceProvider();
         }
 
         [Test]
-        public void WriteGreeting()
+        public void AllAvailableFlavoursSpecifiedInConfigArePresent()
         {
-            foreach (var flavour in HostedEnvironment.FlavoursConfiguration.AvailableFlavours)
-            {
-                Console.WriteLine($"Flavour: {flavour}");
-            }
+            HostedEnvironment.FlavoursConfiguration.ShouldContainOnlyFlavours("Hello", "Wotcha");
+        }
 
-            var greetingService = Container.GetService<IGreeting>();
-            var greeting = greetingService.Greet();
-            Console.WriteLine($"Greeting: {greeting}");
-            greeting.ShouldBe(HostingFlavour.Name);
+        [Test]
+        public void TheDefaultGreetingSpecifiedInConfigIsPresent()
+        {
+            HostedEnvironment.FlavoursConfiguration.DefaultFlavour.Name.ShouldBe("Hello");
         }
     }
 }

@@ -25,6 +25,7 @@ namespace InexRef.HostEnvironment.TestEnvironment.NUnit.Tests
 {
     public abstract class NUnitTestDiscoveryFix
     {
+        // ReSharper disable once UnusedMember.Local
         private static void ReferenceNUnitAssemblyToFixTestDiscovery()
         {
             // This method is never called, but it includes a reference to a type from the NUnit.Framework assembly,
