@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>InexRef.HostEnvironment</id>
+    <version>0.9.0-beta</version>
+    <authors>Rob Levine</authors>
+    <owners>rob_levine</owners>
+    <projectUrl>https://github.com/inex-solutions/InexRef.HostEnvironment</projectUrl>
+    <license type="expression">MIT License</license>
+    <iconUrl>https://avatars2.githubusercontent.com/u/15063515?s=400&amp;u=48772d17689aa70eeafd4a0dff8dcf97c7c2fe3b&amp;v=4</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <releaseNotes>Initial release to nuget</releaseNotes>
+
+    <description>*** TBC ***</description>
+    <copyright>Copyright ©2016-2019 INEX Solutions Ltd</copyright>
+    <tags>hosting nunit test</tags>
+    
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="9.0" />
+    </dependencies>
+  </metadata>
+
+</package>
